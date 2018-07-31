@@ -9,6 +9,8 @@ var headChar = "o" //the head of the snake
 var emptyChar = " " //an empty space
 var fruitChar = "+" //the fruit, food, whatever
 
+var showBorders = true //show the borders around the play field or not
+
 var speed = 0.5 //seconds before next "tick"
 var speedchange = 0.1 //the snake speeds up based on: speed-speedchange*score (leave to 0 if you dont want it to speed up)
 
@@ -57,7 +59,7 @@ function render() {
     var xexample = []
 
     while(i<19) {
-        xexample.push(" ")
+        xexample.push(emptyChar)
         i++
     }
 
@@ -76,11 +78,11 @@ function render() {
         board[v[0]-1][v[1]-1] = headChar
     })
     board[fruitpos[0]-1][fruitpos[1]-1] = fruitChar
-    console.log(" "+"- ".repeat(19))
+    if(showBorders) {console.log(" "+"- ".repeat(19))}
     board.forEach(y=>{
         console.log("|"+y.join(" ")+"|")
     })
-    console.log(" "+"- ".repeat(19))
+    if(showBorders) {console.log(" "+"- ".repeat(19))}
     snakepos.forEach(v=>{
         if(board[v[0]-1] === undefined) {board[v[0]-1] = []}
         board[v[0]-1][v[1]-1] = " "
