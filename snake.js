@@ -10,7 +10,7 @@ var emptyChar = "⚪" //an empty space
 var fruitChar = "🍎" //the fruit, food, whatever
 
 var speed = 0.5 //seconds before next "tick"
-var speedchange = 0.1 //the snake speeds up based on: speed-speedchange*score (leave to 0 if you dont want it to speed up)
+var speedchange = 0.02 //the snake speeds up based on: speed-speedchange*score (leave to 0 if you dont want it to speed up)
 
 //the actual code
 
@@ -35,7 +35,7 @@ process.stdin.on('keypress', (str, key) => {
 function fruit() {
     fruitpos = [Math.ceil(Math.random()*18)+1,Math.ceil(Math.random()*18)+1]
     score++
-    if(score > 1) {
+    if(score > 1 && speed-speedchange !== 0) {
         speed -= speedchange
     }
     snakepos.push(oldSnakePos[score-1].slice(0))
@@ -100,9 +100,7 @@ function render() {
     console.log("score: "+score+"\n"+" ".repeat(19)+keySymbol+" ".repeat(19))
 }
 
-fruit()
-
-tickInterval = setInterval(function() {
+function tick() {
     oldSnakePos = JSON.parse(JSON.stringify(snakepos))
     switch(keyPress) {
         case "up":
@@ -132,4 +130,8 @@ tickInterval = setInterval(function() {
         fruit()
     }
     render()
-}, speed*1000)
+    setTimeout(tick, speed*1000)
+}
+
+fruit()
+tick()
